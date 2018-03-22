@@ -320,7 +320,7 @@ namespace Microsoft.VisualStudio.Services.Agent
                             try
                             {
                                 // we will not requeue failed batch, since the web console lines are time sensitive.
-                                await _jobServer.AppendTimelineRecordFeedAsync(_scopeIdentifier, _hubName, _planId, _jobTimelineId, _jobTimelineRecordId, /*stepRecordId, */batch, default(CancellationToken));
+                                await _jobServer.AppendTimelineRecordFeedAsync(_scopeIdentifier, _hubName, _planId, _jobTimelineId, _jobTimelineRecordId, stepRecordId, batch, default(CancellationToken));
                             }
                             catch (Exception ex)
                             {
