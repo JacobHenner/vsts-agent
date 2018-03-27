@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace Microsoft.VisualStudio.Services.Agent.Worker
 {
@@ -460,7 +461,7 @@ namespace Microsoft.VisualStudio.Services.Agent.Worker
         {
             if (!string.IsNullOrEmpty(data))
             {
-                HostContext.SecretMasker.AddRegex(data);
+                HostContext.SecretMasker.AddRegex(Regex.Escape(data));
             }
         }
 

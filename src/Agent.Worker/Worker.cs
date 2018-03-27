@@ -121,6 +121,10 @@ namespace Microsoft.VisualStudio.Services.Agent.Worker
                 if (maskHint.Type == MaskType.Regex)
                 {
                     HostContext.SecretMasker.AddRegex(maskHint.Value);
+
+                    // We need this because the worker will print out the job message JSON to diag log
+                    // and SecretMasker has JsonEscapeEncoder hook up
+                    HostContext.SecretMasker.AddValue(maskHint.Value);
                 }
                 else
                 {
@@ -148,7 +152,7 @@ namespace Microsoft.VisualStudio.Services.Agent.Worker
             {
                 if (!string.IsNullOrEmpty(file.Ticket))
                 {
-                    HostContext.SecretMasker.AddRegex(file.Ticket);
+                    HostContext.SecretMasker.AddValue(file.Ticket);
                 }
             }
         }
