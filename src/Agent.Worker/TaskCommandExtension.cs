@@ -461,7 +461,29 @@ namespace Microsoft.VisualStudio.Services.Agent.Worker
         {
             if (!string.IsNullOrEmpty(data))
             {
-                HostContext.SecretMasker.AddRegex(Regex.Escape(data));
+                string unescapedRegex = null;
+                try
+                {
+                    unescapedRegex = Regex.Unescape(data);
+                }
+                catch (ArgumentException)
+                {
+                    // in coming string haven't been regex escape yet.
+                }
+
+                if (string.IsNullOrEmpty(unescapedRegex))
+                {
+                    HostContext.SecretMasker.AddRegex(Regex.Escape(data));
+                }
+                else if (!string.Equals(data, unescapedRegex, StringComparison.OrdinalIgnoreCase))
+                {
+                    HostContext.SecretMasker.AddRegex(data);
+                    HostContext.SecretMasker.AddRegex(Regex.Escape(data));
+                }
+                else
+                {
+                    HostContext.SecretMasker.AddRegex(Regex.Escape(data));
+                }
             }
         }
 
